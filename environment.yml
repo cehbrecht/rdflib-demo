@@ -1,0 +1,9 @@
+name: rdflib
+channels:
+  - conda-forge
+dependencies:
+  - pip
+  - python
+  - rdflib
+  - prov
+  - sqlalchemy
