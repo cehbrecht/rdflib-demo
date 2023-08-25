@@ -1,12 +1,24 @@
-from rdflib import Graph
 from prov.model import ProvDocument
-from rdflib.plugins.stores.sparqlstore import SPARQLUpdateStore
+from prov.identifier import Namespace
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import declarative_base
+from sqlalchemy import Column, Integer, String, Text
+
+Base = declarative_base()
+
+class RDFGraph(Base):
+    __tablename__ = 'rdf_graph'
+    
+    id = Column(Integer, primary_key=True)
+    graph_data = Column(Text)
 
 # Create a new PROV document
 prov_doc = ProvDocument()
 
 # Define namespaces
-ex = prov_doc.namespace("ex", "http://example.org/")
+ex = Namespace("example", uri="urn:example:")
+prov_doc.add_namespace(ex)
 
 # Create entities, activities, and agents
 entity = prov_doc.entity(ex["Entity"])
@@ -20,22 +32,29 @@ prov_doc.wasGeneratedBy(entity, activity)
 prov_doc.wasAssociatedWith(activity, agent)
 
 # Serialize the PROV document to RDF format
-rdf_graph = prov_doc.serialize(format="turtle")
+rdf_graph = prov_doc.serialize(format="rdf", rdf_format="turtle")
 
 # Provide the path to the SQLite database in the local folder
 database_path = "provenance_database.sqlite"
 
-# Construct the SQLite URI
-sqlite_uri = "sqlite:///" + database_path
+# Create a SQLAlchemy engine
+engine = create_engine(f'sqlite:///{database_path}', echo=True)
 
-# Set up the SPARQL Update Store with SQLite backend
-store = SPARQLUpdateStore(queryEndpoint=sqlite_uri)
+# Create the table(s) in the database
+Base.metadata.create_all(engine)
 
-# Create a new RDF graph using the store
-g = Graph(store, identifier=ex["ProvenanceGraph"])
+# Create a session factory
+Session = sessionmaker(bind=engine)
+session = Session()
 
-# Add the serialized RDF graph to the store
-g.parse(data=rdf_graph, format="turtle")
+# Create an instance of your data model
+rdf_graph_instance = RDFGraph(graph_data=rdf_graph)
 
-# Commit the graph to the store
-g.commit()
+# Add the instance to the session
+session.add(rdf_graph_instance)
+
+# Commit the changes to the database
+session.commit()
+
+# Close the session when done
+session.close()
