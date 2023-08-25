@@ -8,7 +8,7 @@ from provdemo.db import GraphDB
 prov_doc = ProvDocument()
 
 # Define namespaces
-ex = Namespace("example", uri="urn:example:")
+ex = Namespace("ex", uri="http://example.org/")
 prov_doc.add_namespace(ex)
 
 # Create entities, activities, and agents
@@ -28,5 +28,8 @@ rdf_graph = prov_doc.serialize(format="rdf", rdf_format="turtle")
 # write to store
 graph_db = GraphDB()
 graph_db.add(rdf_graph)
+
+# query store
+graph_db.query()
 
 
