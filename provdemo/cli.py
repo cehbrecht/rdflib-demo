@@ -13,4 +13,7 @@ def cli():
     # query store
     graph_db.query()
 
+    # write 
+    prov.write_rdf()
+
 
