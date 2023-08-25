@@ -14,8 +14,8 @@ setup(
         # Add other dependencies here
     ],
     entry_points={
-        'paste.app_factory': [
-            'main = provdemo:main'
-        ],
+        'console_scripts': [
+            'provdemo=provdemo.cli:cli',
+        ]
     },
 )
