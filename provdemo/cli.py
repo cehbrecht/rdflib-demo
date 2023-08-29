@@ -1,4 +1,4 @@
-from provdemo.db import GraphDB
+from provdemo.db2 import GraphDB
 from provdemo.provenance import Provenance
 
 def cli():
