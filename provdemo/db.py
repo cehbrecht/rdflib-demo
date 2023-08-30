@@ -1,4 +1,5 @@
 from rdflib import Graph, URIRef
+from rdflib.plugins.sparql import prepareQuery
 
 # Provide the path to the SQLite database in the local folder
 DB_URL = "sqlite:///provenance.db"
@@ -21,19 +22,18 @@ class GraphDB(object):
         # Commit changes to the store
         self.graph.commit()
 
-    def query(self):
-        # Define and execute a SPARQL query
-        query = """
-            SELECT ?s ?p ?o
-            WHERE {
-                ?s ?p ?o .
-            }
-        """
-
+    def query(self, query_str):
+        namespaces = {
+            "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+            "foaf": "http://xmlns.com/foaf/0.1/",
+            "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+            "prov": "http://www.w3.org/ns/prov#",
+            "provone": "http://purl.dataone.org/provone/2015/01/15/ontology#",
+            "dcterms": "http://purl.org/dc/terms/",
+            "clint": "urn:clint:"
+        }
+        query = prepareQuery(query_str, initNs=namespaces)
         results = self.graph.query(query)
+        return results
 
-        # Print the query results
-        print(f"\n\nquery: results={len(results)}")
-        for row in results:
-            # print(row)
-            pass
+    
