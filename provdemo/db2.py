@@ -12,24 +12,9 @@ class GraphDB(object):
             identifier=URIRef("http://example.org/graph"))
         self.graph.open(db_url, create=True)
 
-        # Add some data to the graph
-        self.graph.add((URIRef("http://example.org/subject1"), RDF.type, URIRef("http://example.org/Person")))
-        self.graph.add((URIRef("http://example.org/subject1"), URIRef("http://example.org/name"), Literal("Alice")))
-
-        # Commit the changes to the database
-        self.graph.commit()
-
     def add(self, data):
-        return
         new_graph = Graph()
         new_graph.parse(data=data, format="turtle")
-        # dummy
-        new_graph = Graph()
-
-        # Add some data to the graph
-        new_graph.add((URIRef("http://example.org/subject1"), RDF.type, URIRef("http://example.org/Person")))
-        new_graph.add((URIRef("http://example.org/subject1"), URIRef("http://example.org/name"), Literal("Alice")))
-
 
         # add rdf to existing graph
         for triple in new_graph:
@@ -41,16 +26,15 @@ class GraphDB(object):
     def query(self):
         # Define and execute a SPARQL query
         query = """
-            SELECT ?subject ?name
+            SELECT ?s ?p ?o
             WHERE {
-                ?subject a <http://example.org/Person> .
-                ?subject <http://example.org/name> ?name .
+                ?s ?p ?o .
             }
         """
 
         results = self.graph.query(query)
 
         # Print the query results
+        print(f"query: results={len(results)}")
         for row in results:
-            subject, name = row
-            print(f"Subject: {subject}, Name: {name}")
+            print(row)
