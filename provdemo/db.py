@@ -1,4 +1,5 @@
 from rdflib import Graph, URIRef
+from rdflib.plugins.sparql import prepareQuery
 
 # Provide the path to the SQLite database in the local folder
 DB_URL = "sqlite:///provenance.db"
@@ -21,7 +22,8 @@ class GraphDB(object):
         # Commit changes to the store
         self.graph.commit()
 
-    def query(self, query):
+    def query(self, query_str):
+        query = prepareQuery(query_str, initNs={})
         results = self.graph.query(query)
         return results
 

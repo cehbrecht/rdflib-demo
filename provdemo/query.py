@@ -1,17 +1,16 @@
 from provdemo.db import GraphDB
 
+
 def query_all():
     graph_db = GraphDB()
    
-    # Define and execute a SPARQL query
-    query = """
-        SELECT ?s ?p ?o
+    query_str = """
+        SELECT ?subject ?predicate ?object
         WHERE {
-            ?s ?p ?o .
+        ?subject ?predicate ?object
         }
     """
-
-    results = graph_db.query(query)
+    results = graph_db.query(query_str)
 
     # Print the query results
     print(f"\n\nquery: results={len(results)}")
