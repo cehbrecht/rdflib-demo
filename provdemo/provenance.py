@@ -209,6 +209,3 @@ class Provenance(object):
     def json(self):
         return json.loads(self.dump_json())
     
-    def query(self):
-        graph_db = GraphDB()
-        graph_db.query()

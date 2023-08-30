@@ -1,4 +1,5 @@
 from provdemo.provenance import Provenance
+from provdemo import query
 
 def cli():
     prov = build()
@@ -8,7 +9,7 @@ def cli():
     prov.write_rdf()
 
     # query
-    prov.query()
+    query.query_all()
 
 def build():
     prov = Provenance(".")

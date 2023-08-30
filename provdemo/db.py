@@ -21,19 +21,8 @@ class GraphDB(object):
         # Commit changes to the store
         self.graph.commit()
 
-    def query(self):
-        # Define and execute a SPARQL query
-        query = """
-            SELECT ?s ?p ?o
-            WHERE {
-                ?s ?p ?o .
-            }
-        """
-
+    def query(self, query):
         results = self.graph.query(query)
+        return results
 
-        # Print the query results
-        print(f"\n\nquery: results={len(results)}")
-        for row in results:
-            # print(row)
-            pass
+    
