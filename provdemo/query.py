@@ -13,11 +13,25 @@ def query_all():
 def query_input_data():
     print("\nquery: input data")
     query_str = """
-        SELECT ?label
+        SELECT ?specificEntity
         WHERE {
-            ?data rdf:type provone:Data ;
-                rdfs:label ?label .
-            FILTER (!strends(lcase(?label), "_infilled.nc"))
+        ?specificEntity rdf:type prov:Entity .
+        
+        ?entity rdf:type prov:Entity ;
+                prov:qualifiedDerivation [ prov:entity ?specificEntity ] .
+        }
+    """
+    _query(query_str)
+
+def query_output_data():
+    print("\nquery: output data")
+    query_str = """
+        SELECT ?entity
+        WHERE {
+        ?specificEntity rdf:type prov:Entity .
+        
+        ?entity rdf:type prov:Entity ;
+                prov:qualifiedDerivation [ prov:entity ?specificEntity ] .
         }
     """
     _query(query_str)
