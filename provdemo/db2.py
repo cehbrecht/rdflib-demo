@@ -17,6 +17,7 @@ class GraphDB(object):
         new_graph.parse(data=data, format="turtle")
 
         # add rdf to existing graph
+        print("\n\nadd new graph")
         for triple in new_graph:
             print(triple)
             self.graph.add(triple)
@@ -35,6 +36,6 @@ class GraphDB(object):
         results = self.graph.query(query)
 
         # Print the query results
-        print(f"query: results={len(results)}")
+        print(f"\n\nquery: results={len(results)}")
         for row in results:
             print(row)
