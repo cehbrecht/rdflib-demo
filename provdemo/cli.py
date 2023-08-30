@@ -9,7 +9,8 @@ def cli():
     prov.write_rdf()
 
     # query
-    query.query_all()
+    # query.query_all()
+    query.query_input_data()
 
 def build():
     prov = Provenance(".")
