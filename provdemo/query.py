@@ -22,14 +22,27 @@ def query_input_data():
     """
     _query(query_str)
 
-def query_execution():
-    print("\nquery: execution")
+def query_execution_time():
+    print("\nquery: execution time")
     query_str = """
         SELECT ?start ?end
         WHERE {
             ?exec rdf:type provone:Execution ;
                 prov:startedAtTime ?start ;
                 prov:endedAtTime ?end .
+        }
+    """
+    _query(query_str)
+
+def query_execution_jobs():
+    print("\nquery: execution jobs")
+    query_str = """
+        SELECT ?name ?dataset ?variable
+        WHERE {
+            ?exec rdf:type provone:Execution ;
+                rdfs:label ?name ;
+                clint:dataset_name ?dataset ;
+                clint:variable_name ?variable .
         }
     """
     _query(query_str)

@@ -11,7 +11,8 @@ def cli():
     # query
     # query.query_all()
     query.query_input_data()
-    query.query_execution()
+    query.query_execution_time()
+    query.query_execution_jobs()
 
 def build():
     prov = Provenance(".")
