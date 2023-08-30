@@ -15,5 +15,5 @@ def query_all():
     # Print the query results
     print(f"\n\nquery: results={len(results)}")
     for row in results:
-        # print(row)å
+        # print(row)
         pass
