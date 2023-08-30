@@ -1,5 +1,5 @@
 from provdemo.db import GraphDB
-from provdemo.provenance2 import Provenance
+from provdemo.provenance import Provenance
 
 def cli():
     # collect provenvance
