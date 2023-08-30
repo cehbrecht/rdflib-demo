@@ -1,8 +1,7 @@
-from rdflib import Graph, URIRef, Literal
-from rdflib.namespace import RDF
+from rdflib import Graph, URIRef
 
 # Provide the path to the SQLite database in the local folder
-db_url = "sqlite:///my_rdf_store.db"
+DB_URL = "sqlite:///provenance.db"
 
 class GraphDB(object):
     def __init__(self):
@@ -10,19 +9,17 @@ class GraphDB(object):
         self.graph = Graph(
             store="SQLAlchemy", 
             identifier=URIRef("http://example.org/graph"))
-        self.graph.open(db_url, create=True)
+        self.graph.open(DB_URL, create=True)
 
     def add(self, data):
         new_graph = Graph()
         new_graph.parse(data=data, format="turtle")
 
         # add rdf to existing graph
-        print("\n\nadd new graph")
         for triple in new_graph:
-            print(triple)
             self.graph.add(triple)
         # Commit changes to the store
-        self.graph.store.commit()
+        self.graph.commit()
 
     def query(self):
         # Define and execute a SPARQL query
@@ -38,4 +35,5 @@ class GraphDB(object):
         # Print the query results
         print(f"\n\nquery: results={len(results)}")
         for row in results:
-            print(row)
+            # print(row)
+            pass
