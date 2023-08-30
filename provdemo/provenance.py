@@ -8,6 +8,8 @@ from prov.identifier import Namespace
 import prov.model as prov
 from prov.dot import prov_to_dot
 
+from provdemo.db import GraphDB
+
 # prov namespace
 PROV_ORGANISATION = prov.PROV["Organization"]
 PROV_SOFTWARE_AGENT = prov.PROV["SoftwareAgent"]
@@ -197,8 +199,16 @@ class Provenance(object):
         with open(outfile.as_posix(), "w") as f:
             f.write(self.get_rdf())
 
+    def store_rdf(self):
+        graph_db = GraphDB()
+        graph_db.add(self.get_rdf())
+
     def dump_json(self):
         return self.doc.serialize(indent=2)
 
     def json(self):
         return json.loads(self.dump_json())
+    
+    def query(self):
+        graph_db = GraphDB()
+        graph_db.query()

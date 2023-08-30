@@ -1,4 +1,3 @@
-from provdemo.db import GraphDB
 from provdemo.provenance import Provenance
 
 def cli():
@@ -18,14 +17,12 @@ def cli():
     time.sleep(2)
     prov.stop()
 
-    # write to store
-    graph_db = GraphDB()
-    graph_db.add(prov.get_rdf())
-
-    # query store
-    graph_db.query()
-
-    # write 
+    prov.store_rdf()
     prov.write_rdf()
+
+    # query
+    prov.query()
+
+   
 
 
