@@ -1,7 +1,16 @@
 from provdemo.provenance import Provenance
 
 def cli():
-    # collect provenvance
+    prov = build()
+
+    # store in db and file
+    prov.store_rdf()
+    prov.write_rdf()
+
+    # query
+    prov.query()
+
+def build():
     prov = Provenance(".")
     prov.start(workflow=True)
     prov.add_operator(
@@ -16,12 +25,7 @@ def cli():
     import time
     time.sleep(2)
     prov.stop()
-
-    prov.store_rdf()
-    prov.write_rdf()
-
-    # query
-    prov.query()
+    return prov
 
    
 
