@@ -7,5 +7,5 @@ dependencies:
   - rdflib
   - rdflib-sqlalchemy
   - prov
-  - sqlalchemy
+  - sqlalchemy<2
 
