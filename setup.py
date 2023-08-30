@@ -9,8 +9,9 @@ setup(
     packages=find_packages(),
     install_requires=[
         'rdflib',
+        'rdflib-sqlalchemy',
         'prov',
-        'sqlalchemy',
+        'sqlalchemy<2',
         # Add other dependencies here
     ],
     entry_points={

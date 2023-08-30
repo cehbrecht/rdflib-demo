@@ -5,5 +5,7 @@ dependencies:
   - pip
   - python
   - rdflib
+  - rdflib-sqlalchemy
   - prov
-  - sqlalchemy
+  - sqlalchemy<2
+
