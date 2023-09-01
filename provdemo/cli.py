@@ -1,5 +1,6 @@
 from provdemo.provenance import Provenance
 from provdemo import query
+from provdemo import report
 
 def cli():
     prov = build()
@@ -14,7 +15,8 @@ def cli():
     # query.query_output_data()
     # query.query_execution_time()
     # query.query_execution_jobs()
-    query.query_with_pandas()
+    df = query.query_with_pandas()
+    report.write_html(df)
 
 def build():
     prov = Provenance(".")

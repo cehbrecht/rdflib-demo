@@ -63,8 +63,6 @@ def query_execution_jobs():
     _query(query_str)
 
 def query_with_pandas():
-    print("\nquery jobs")
-    print("*" * 50)
     query_str = """
         SELECT ?startTime ?endTime
         WHERE {
@@ -84,11 +82,8 @@ def query_with_pandas():
         end_time = row.endTime.value
         data.append({"Process": process, "Start Time": start_time, "End Time": end_time})
 
-    # Create a Pandas DataFrame from the data
     df = pd.DataFrame(data)
-
-    # Print the DataFrame
-    print(df)
+    return df
 
 def _query(query_str):
     graph_db = GraphDB()
