@@ -20,7 +20,7 @@ def cli():
 
 def build():
     prov = Provenance(".")
-    prov.start(workflow=True)
+    prov.start()
     prov.add_operator(
         "crai", 
         {
@@ -30,9 +30,6 @@ def build():
         ["HadCRUT.5.0.1.0.anomalies.ensemble_mean.nc"], 
         ["HadCRUT.5.0.1.0.anomalies.ensemble_mean_infilled.nc"]
     )
-    import time
-    time.sleep(2)
-    prov.stop()
     return prov
 
    

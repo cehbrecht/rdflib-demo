@@ -64,9 +64,12 @@ def query_execution_jobs():
 
 def query_with_pandas():
     query_str = """
-        SELECT ?startTime ?endTime
+        SELECT ?process ?dataset ?variable ?startTime ?endTime
         WHERE {
             ?exec rdf:type provone:Execution ;
+                rdfs:label ?process ;
+                clint:dataset_name ?dataset ;
+                clint:variable_name ?variable ;
                 prov:startedAtTime ?startTime ;
                 prov:endedAtTime ?endTime .
         }
@@ -76,11 +79,18 @@ def query_with_pandas():
 
     data = []
     for row in results:
-        # process = row.process.split("/")[-1]
-        process = "crai"
+        process = row.process.split("/")[-1]
+        dataset = row.dataset.value
+        variable = row.variable.value
         start_time = row.startTime.value
         end_time = row.endTime.value
-        data.append({"Process": process, "Start Time": start_time, "End Time": end_time})
+        data.append({
+            "Process": process, 
+            "Dataset": dataset,
+            "Variable": variable, 
+            "Start Time": start_time, 
+            "End Time": end_time}
+        )
 
     df = pd.DataFrame(data)
     return df
