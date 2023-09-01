@@ -1,4 +1,5 @@
 from provdemo.db import GraphDB
+import pandas as pd
 
 
 def query_all():
@@ -60,6 +61,34 @@ def query_execution_jobs():
         }
     """
     _query(query_str)
+
+def query_with_pandas():
+    print("\nquery jobs")
+    print("*" * 50)
+    query_str = """
+        SELECT ?startTime ?endTime
+        WHERE {
+            ?exec rdf:type provone:Execution ;
+                prov:startedAtTime ?startTime ;
+                prov:endedAtTime ?endTime .
+        }
+    """
+    graph_db = GraphDB()
+    results = graph_db.query(query_str)
+
+    data = []
+    for row in results:
+        # process = row.process.split("/")[-1]
+        process = "crai"
+        start_time = row.startTime.value
+        end_time = row.endTime.value
+        data.append({"Process": process, "Start Time": start_time, "End Time": end_time})
+
+    # Create a Pandas DataFrame from the data
+    df = pd.DataFrame(data)
+
+    # Print the DataFrame
+    print(df)
 
 def _query(query_str):
     graph_db = GraphDB()
