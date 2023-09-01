@@ -81,7 +81,7 @@ class Provenance(object):
             },
         )
 
-    def add_operator(self, operator, parameters, collection, output):
+    def add_operator(self, operator, parameters, collection, output, start, end):
         attributes = {}
         for param in [
             "time",
@@ -101,6 +101,8 @@ class Provenance(object):
             identifier=CLINT[f"{operator}_{uuid.uuid4()}"],
             label=operator,
             attributes=attributes,
+            start=start,
+            end=end
         )
         # input data
         ds_in = os.path.basename(collection[0])
@@ -127,7 +129,7 @@ class Provenance(object):
             )
         return entity
 
-    def _execution_activity(self, identifier, label=None, attributes=None):
+    def _execution_activity(self, identifier, label=None, attributes=None, start=None, end=None):
         records = self.doc.get_record(identifier)
         if records:
             activity = records[0]
@@ -141,10 +143,10 @@ class Provenance(object):
             )
         if attributes:
             activity.add_attributes(attributes)
-        if True:
+        if start and end:
             time_attribures={
-                prov.PROV_ATTR_STARTTIME: datetime.now().isoformat(timespec="seconds"),
-                prov.PROV_ATTR_ENDTIME: datetime.now().isoformat(timespec="seconds")
+                prov.PROV_ATTR_STARTTIME: start,
+                prov.PROV_ATTR_ENDTIME: end
             }
             activity.add_attributes(time_attribures)
         return activity
