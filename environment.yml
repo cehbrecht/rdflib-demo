@@ -8,4 +8,5 @@ dependencies:
   - rdflib-sqlalchemy
   - prov
   - sqlalchemy<2
+  - pandas
 

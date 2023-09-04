@@ -1,34 +1,45 @@
 from provdemo.provenance import Provenance
 from provdemo import query
+from provdemo import report
+from datetime import datetime
 
 def cli():
+    print("build prov")
     prov = build()
 
     # store in db and file
+    print("store prov")
     prov.store_rdf()
     prov.write_rdf()
 
     # query
-    # query.query_all()
-    query.query_input_data()
-    query.query_execution_time()
-    query.query_execution_jobs()
+    print("query prov")
+    df = query.query()
+    print(df.tail())
+
+    # report
+    print("report prov")
+    report.write_html(df)
 
 def build():
+    start_time = datetime.now().isoformat(timespec="seconds")
+    end_time = start_time
+
     prov = Provenance(".")
-    prov.start(workflow=True)
     prov.add_operator(
         "crai", 
         {
             "dataset_name": "HadCRUT5",
             "variable_name": "tas_mean",
+            "min": 10,
+            "max": 20,
+            "stddev": 2,
         }, 
-        ["HadCRUT.5.0.1.0.anomalies.ensemble_mean.nc"], 
-        ["HadCRUT.5.0.1.0.anomalies.ensemble_mean_infilled.nc"]
+        ["http://example.org/input/HadCRUT.5.0.1.0.anomalies.ensemble_mean.nc"], 
+        ["http://example.org/output/HadCRUT.5.0.1.0.anomalies.ensemble_mean_infilled.nc"],
+        start_time,
+        end_time,
     )
-    import time
-    time.sleep(2)
-    prov.stop()
     return prov
 
    
