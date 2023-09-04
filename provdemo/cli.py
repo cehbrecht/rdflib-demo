@@ -19,7 +19,6 @@ def build():
     end_time = start_time
 
     prov = Provenance(".")
-    prov.start()
     prov.add_operator(
         "crai", 
         {

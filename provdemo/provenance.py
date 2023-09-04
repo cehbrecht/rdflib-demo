@@ -37,12 +37,13 @@ class Provenance(object):
             self.output_dir = pathlib.Path(output_dir)
         self.doc = None
         self._identifier = None
+        self.init()
 
     @property
     def identifier(self):
         return self._identifier
 
-    def start(self):
+    def init(self):
         # from climatereconstructionai import __version__ as crai_version
         crai_version = "1.0.2"
         # from duck import __version__ as duck_version
