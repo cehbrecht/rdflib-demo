@@ -2,39 +2,7 @@ from provdemo.db import GraphDB
 import pandas as pd
 
 
-def query_all():
-    query_str = """
-        SELECT ?subject ?predicate ?object
-        WHERE {
-        ?subject ?predicate ?object
-        }
-    """
-
-def query_input_data():
-    print("\nquery: input data")
-    query_str = """
-        SELECT ?specificEntity
-        WHERE {
-        ?specificEntity rdf:type prov:Entity .
-        
-        ?entity rdf:type prov:Entity ;
-                prov:qualifiedDerivation [ prov:entity ?specificEntity ] .
-        }
-    """
-
-def query_output_data():
-    print("\nquery: output data")
-    query_str = """
-        SELECT ?entity
-        WHERE {
-        ?specificEntity rdf:type prov:Entity .
-        
-        ?entity rdf:type prov:Entity ;
-                prov:qualifiedDerivation [ prov:entity ?specificEntity ] .
-        }
-    """
-
-def query_with_pandas():
+def query():
     query_str = """
         SELECT ?process ?dataset ?variable ?startTime ?endTime ?input ?output
         WHERE {

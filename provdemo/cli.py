@@ -11,7 +11,7 @@ def cli():
     prov.write_rdf()
 
     # query
-    df = query.query_with_pandas()
+    df = query.query()
     report.write_html(df)
 
 def build():
