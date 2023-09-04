@@ -15,7 +15,7 @@ def cli():
     # query
     print("query prov")
     df = query.query()
-    print(df)
+    print(df.tail())
 
     # report
     print("report prov")
