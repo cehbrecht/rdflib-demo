@@ -30,6 +30,12 @@ def build():
         start_time,
         end_time
     )
+    prov.add_statistics(
+        ["http://example.org/output/HadCRUT.5.0.1.0.anomalies.ensemble_mean_infilled.nc"], 
+        10, 
+        20, 
+        2
+    )
     return prov
 
    

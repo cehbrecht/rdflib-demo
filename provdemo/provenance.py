@@ -116,7 +116,28 @@ class Provenance(object):
             op_output = self._data_entitiy(identifier=CLINT[ds_out], label=ds_out)
             self.doc.wasDerivedFrom(op_output, op_input, activity=op)
 
-    def _data_entitiy(self, identifier, label=None):
+    def add_statistics(self, collection, min_value, max_value, stddev):
+        operator = "statistics"
+        attributes = {}
+        op = self._execution_activity(
+            identifier=CLINT[f"{operator}_{uuid.uuid4()}"],
+            label=operator,
+            attributes=attributes
+        )
+        # input data
+        ds_in = os.path.basename(collection[0])
+        op_input = self._data_entitiy(identifier=CLINT[ds_in], label=ds_in)
+        # operator started by crai
+        self.doc.start(op, starter=self.sw_crai, trigger=self.sw_duck)
+        # Generated outputs
+        data_min = self._data_entitiy(identifier=CLINT[f"minValue_{uuid.uuid4()}"], label="minValue", value=min_value)
+        data_max = self._data_entitiy(identifier=CLINT[f"maxValue_{uuid.uuid4()}"], label="maxValue", value=max_value)
+        data_stddev = self._data_entitiy(identifier=CLINT[f"stddev_{uuid.uuid4()}"], label="stddev", value=stddev)
+        self.doc.wasDerivedFrom(data_min, op_input, activity=op)
+        self.doc.wasDerivedFrom(data_max, op_input, activity=op)
+        self.doc.wasDerivedFrom(data_stddev, op_input, activity=op)
+
+    def _data_entitiy(self, identifier, label=None, value=None):
         records = self.doc.get_record(identifier)
         if records:
             entity = records[0]
@@ -126,6 +147,7 @@ class Provenance(object):
                 {
                     prov.PROV_TYPE: PROVONE_DATA,
                     prov.PROV_LABEL: label or "data",
+                    prov.PROV_VALUE: value or label or "",
                 }
             )
         return entity
